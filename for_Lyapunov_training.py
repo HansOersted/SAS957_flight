@@ -1,6 +1,7 @@
 import pandas as pd
+import numpy as np
 
-user_input_end_time = 15450  # select the end time in seconds, e.g., 15450 seconds
+user_input_end_time = 15450  # Select the end time for the training data
 
 df = pd.read_csv("tracking_error_dynamics_6150s_to_19000s.csv")
 
@@ -9,13 +10,10 @@ print(f"Selected end time: {closest_end_time} s")
 
 subset_df = df[(df["Time (s)"] >= 6150) & (df["Time (s)"] <= closest_end_time)].copy()
 
-packed_df = pd.DataFrame({
-    "e[0]": subset_df["tracking_error"],
-    "e[1]": subset_df["tracking_error_derivative"],
-    "de[0]": subset_df["tracking_error_derivative"],
-    "de[1]": subset_df["tracking_error_second_derivative"]
-})
+e = subset_df[["tracking_error", "tracking_error_derivative"]].to_numpy()
+de = subset_df[["tracking_error_derivative", "tracking_error_second_derivative"]].to_numpy()
 
-output_csv = f"packed_lyapunov_input_6150s_to_{int(closest_end_time)}s.csv"
-packed_df.to_csv(output_csv, index=False)
-print(f"Output file saved as: {output_csv}")
+output_filename = f"training_data_6150s_to_{int(closest_end_time)}s.npz"
+np.savez(output_filename, e=e, de=de)
+
+print(f"Training data saved as: {output_filename}")
