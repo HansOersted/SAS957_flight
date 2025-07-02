@@ -1,7 +1,7 @@
 import pandas as pd
 import numpy as np
 
-user_input_end_time = 15502.5  # Select the end time for the training data
+user_input_end_time = 15446 # Select the end time for the training data
 
 df = pd.read_csv("tracking_error_dynamics_6150s_to_19000s.csv")
 
