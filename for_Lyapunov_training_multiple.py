@@ -3,7 +3,7 @@ import numpy as np
 
 df = pd.read_csv("tracking_error_dynamics_6150s_to_19000s.csv")
 
-for user_input_end_time in range(15870, 16080 + 1, 30):
+for user_input_end_time in range(15450, 15480 + 1, 30):
     closest_end_time = df["Time (s)"].iloc[(df["Time (s)"] - user_input_end_time).abs().argmin()]
     print(f"Selected end time: {closest_end_time} s")
 
